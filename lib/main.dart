@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: UserListScreen(),
+      home: const UserListScreen(),
     );
   }
 }
@@ -77,7 +77,7 @@ class _UserListScreenState extends State<UserListScreen> {
                 User user = snapshot.data![index];
                 return ListTile(
                   leading: CircleAvatar(
-                    backgroundImage: NetworkImage(user.picture!),
+                    backgroundImage: NetworkImage(user.picture),
                   ),
                   title: Text('${user.firstName} ${user.lastName}'),
                   subtitle: Text(user.email), // Changed to display email
@@ -103,19 +103,19 @@ class _UserListScreenState extends State<UserListScreen> {
         ),
         IconButton(
           icon: const Icon(Icons.delete),
-          onPressed: () => _deleteUser(user.id!),
+          onPressed: () => _deleteUser(user.id),
         ),
       ],
     );
   }
 
   void _showEditDialog(User user) {
-    tituloController.text = user.title!;
+    tituloController.text = user.title;
     firstnameController.text = user.firstName;
     lastnameController.text = user.lastName;
     emailController.text =
         user.email; // Assuming email cannot be updated, disable this field
-    pictureController.text = user.picture!;
+    pictureController.text = user.picture;
 
     showDialog(
       context: context,
@@ -166,7 +166,7 @@ class _UserListScreenState extends State<UserListScreen> {
         firstnameController.text.isNotEmpty &&
         lastnameController.text.isNotEmpty &&
         pictureController.text.isNotEmpty) {
-      userService.updateUser(user.id!, dataToUpdate).then((updatedUser) {
+      userService.updateUser(user.id, dataToUpdate).then((updatedUser) {
         _showSnackbar('User updated successfully!');
         _refreshUserList();
       }).catchError((error) {
