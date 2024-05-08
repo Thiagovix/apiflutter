@@ -3,10 +3,12 @@ import 'user.dart';
 import 'user_service.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,7 +23,10 @@ class MyApp extends StatelessWidget {
 }
 
 class UserListScreen extends StatefulWidget {
+  const UserListScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _UserListScreenState createState() => _UserListScreenState();
 }
 
@@ -46,7 +51,7 @@ class _UserListScreenState extends State<UserListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('User List'),
+        title: const Text('User List'),
       ),
       body: Column(
         children: [
@@ -81,7 +86,7 @@ class _UserListScreenState extends State<UserListScreen> {
               },
             );
           } else {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),
@@ -93,11 +98,11 @@ class _UserListScreenState extends State<UserListScreen> {
       spacing: 12,
       children: <Widget>[
         IconButton(
-          icon: Icon(Icons.edit),
+          icon: const Icon(Icons.edit),
           onPressed: () => _showEditDialog(user),
         ),
         IconButton(
-          icon: Icon(Icons.delete),
+          icon: const Icon(Icons.delete),
           onPressed: () => _deleteUser(user.id!),
         ),
       ],
@@ -115,29 +120,29 @@ class _UserListScreenState extends State<UserListScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Edit User"),
+        title: const Text("Edit User"),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextFormField(
                   controller: tituloController,
-                  decoration: InputDecoration(labelText: 'Title')),
+                  decoration: const InputDecoration(labelText: 'Title')),
               TextFormField(
                   controller: firstnameController,
-                  decoration: InputDecoration(labelText: 'First Name')),
+                  decoration: const InputDecoration(labelText: 'First Name')),
               TextFormField(
                   controller: lastnameController,
-                  decoration: InputDecoration(labelText: 'Last Name')),
+                  decoration: const InputDecoration(labelText: 'Last Name')),
               TextFormField(
                   controller: pictureController,
-                  decoration: InputDecoration(labelText: 'Picture URL')),
+                  decoration: const InputDecoration(labelText: 'Picture URL')),
             ],
           ),
         ),
         actions: <Widget>[
           TextButton(
-            child: Text("Update"),
+            child: const Text("Update"),
             onPressed: () {
               _updateUser(user);
               Navigator.of(context).pop();
@@ -181,21 +186,21 @@ class _UserListScreenState extends State<UserListScreen> {
 
   Widget _buildAddUserForm() {
     return Padding(
-      padding: EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8.0),
       child: Column(
         children: <Widget>[
           TextFormField(
               controller: firstnameController,
-              decoration: InputDecoration(labelText: 'First Name')),
+              decoration: const InputDecoration(labelText: 'First Name')),
           TextFormField(
               controller: lastnameController,
-              decoration: InputDecoration(labelText: 'Last Name')),
+              decoration: const InputDecoration(labelText: 'Last Name')),
           TextFormField(
               controller: emailController, // Added email input field
-              decoration: InputDecoration(labelText: 'Email')),
+              decoration: const InputDecoration(labelText: 'Email')),
           ElevatedButton(
             onPressed: _addUser,
-            child: Text('Add User'),
+            child: const Text('Add User'),
           ),
         ],
       ),
