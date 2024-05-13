@@ -7,23 +7,56 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter User API Demo',
+      title: 'CadPeople',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const UserListScreen(),
+      home: const TabBarDemo(),
+    );
+  }
+}
+
+class TabBarDemo extends StatelessWidget {
+  const TabBarDemo({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Plataforma CadPeople',
+            style: TextStyle(),
+          ),
+          centerTitle: true, // Centraliza o título
+          bottom: const TabBar(
+            tabs: [
+              Tab(text: 'Usuário Cadastrado'),
+              Tab(text: 'Cadastrar Usuário'),
+            ],
+          ),
+        ),
+        body: const TabBarView(
+          children: [
+            UserListScreen(),
+            AddUserScreen(),
+          ],
+        ),
+      ),
     );
   }
 }
 
 class UserListScreen extends StatefulWidget {
-  const UserListScreen({super.key});
+  const UserListScreen({Key? key}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -37,8 +70,7 @@ class _UserListScreenState extends State<UserListScreen> {
   final TextEditingController tituloController = TextEditingController();
   final TextEditingController firstnameController = TextEditingController();
   final TextEditingController lastnameController = TextEditingController();
-  final TextEditingController emailController =
-      TextEditingController(); // Added for email
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController pictureController = TextEditingController();
 
   @override
@@ -49,50 +81,53 @@ class _UserListScreenState extends State<UserListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('User List'),
-      ),
-      body: Column(
-        children: [
-          _buildUserList(),
-          _buildAddUserForm(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildUserList() {
-    return Expanded(
-      child: FutureBuilder<List<User>>(
-        future: futureUsers,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasError) {
-              return Center(child: Text("Error: ${snapshot.error}"));
-            }
-            return ListView.builder(
-              itemCount: snapshot.data?.length ?? 0,
-              itemBuilder: (context, index) {
-                User user = snapshot.data![index];
-                return ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(user.picture),
-                  ),
-                  title: Text('${user.firstName} ${user.lastName}'),
-                  subtitle: Text(user.email), // Changed to display email
-                  trailing: _buildEditAndDeleteButtons(user),
+    return Column(
+      children: [
+        Expanded(
+          child: FutureBuilder<List<User>>(
+            future: futureUsers,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return Center(child: Text("Error: ${snapshot.error}"));
+                }
+                return ListView.builder(
+                  itemCount: snapshot.data?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    User user = snapshot.data![index];
+                    return ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage: NetworkImage(user.picture),
+                      ),
+                      title: Text('${user.firstName} ${user.lastName}'),
+                      subtitle: Text(user.email),
+                      trailing: Wrap(
+                        spacing: 12,
+                        children: <Widget>[
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () => _showEditDialog(user),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () => _deleteUser(user.id),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 );
-              },
-            );
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
+        ),
+      ],
     );
   }
 
+  // ignore: unused_element
   Widget _buildEditAndDeleteButtons(User user) {
     return Wrap(
       spacing: 12,
@@ -113,36 +148,39 @@ class _UserListScreenState extends State<UserListScreen> {
     tituloController.text = user.title;
     firstnameController.text = user.firstName;
     lastnameController.text = user.lastName;
-    emailController.text =
-        user.email; // Assuming email cannot be updated, disable this field
+    emailController.text = user.email;
     pictureController.text = user.picture;
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Edit User"),
+        title: const Text("Editar usuário"),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextFormField(
-                  controller: tituloController,
-                  decoration: const InputDecoration(labelText: 'Title')),
+                controller: tituloController,
+                decoration: const InputDecoration(labelText: 'Titulo'),
+              ),
               TextFormField(
-                  controller: firstnameController,
-                  decoration: const InputDecoration(labelText: 'First Name')),
+                controller: firstnameController,
+                decoration: const InputDecoration(labelText: 'Primeiro nome'),
+              ),
               TextFormField(
-                  controller: lastnameController,
-                  decoration: const InputDecoration(labelText: 'Last Name')),
+                controller: lastnameController,
+                decoration: const InputDecoration(labelText: 'Sobrenome'),
+              ),
               TextFormField(
-                  controller: pictureController,
-                  decoration: const InputDecoration(labelText: 'Picture URL')),
+                controller: pictureController,
+                decoration: const InputDecoration(labelText: 'Picture URL'),
+              ),
             ],
           ),
         ),
         actions: <Widget>[
           TextButton(
-            child: const Text("Update"),
+            child: const Text("Salvar"),
             onPressed: () {
               _updateUser(user);
               Navigator.of(context).pop();
@@ -154,12 +192,10 @@ class _UserListScreenState extends State<UserListScreen> {
   }
 
   void _updateUser(User user) {
-    // Inicializa um Map para armazenar apenas os campos permitidos para atualização
     Map<String, dynamic> dataToUpdate = {
-      'firstName': firstnameController.text,
-      'lastName': lastnameController.text,
-      'picture': pictureController.text,
-      // Não inclua 'email' pois é proibido atualizar
+      'Primeiro nome': firstnameController.text,
+      'Sobrenome': lastnameController.text,
+      'Foto': pictureController.text,
     };
 
     if (tituloController.text.isNotEmpty &&
@@ -167,68 +203,71 @@ class _UserListScreenState extends State<UserListScreen> {
         lastnameController.text.isNotEmpty &&
         pictureController.text.isNotEmpty) {
       userService.updateUser(user.id, dataToUpdate).then((updatedUser) {
-        _showSnackbar('User updated successfully!');
+        _showSnackbar('Usuário salvo com sucesso!');
         _refreshUserList();
       }).catchError((error) {
-        _showSnackbar('Failed to update user: $error');
+        _showSnackbar('Falha ao salvar o usuário: $error');
       });
     }
   }
 
   void _deleteUser(String id) {
     userService.deleteUser(id).then((_) {
-      _showSnackbar('User deleted successfully!');
+      _showSnackbar('Usuário deletado com sucesso!');
       _refreshUserList();
     }).catchError((error) {
-      _showSnackbar('Failed to delete user.');
+      _showSnackbar('Falha ao deletar o usuário.');
     });
   }
 
+  // ignore: unused_element
   Widget _buildAddUserForm() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: <Widget>[
           TextFormField(
-              controller: firstnameController,
-              decoration: const InputDecoration(labelText: 'First Name')),
+            decoration: const InputDecoration(labelText: 'Primeiro nome'),
+          ),
           TextFormField(
-              controller: lastnameController,
-              decoration: const InputDecoration(labelText: 'Last Name')),
+            decoration: const InputDecoration(labelText: 'Sobrenome'),
+          ),
           TextFormField(
-              controller: emailController, // Added email input field
-              decoration: const InputDecoration(labelText: 'Email')),
+            decoration: const InputDecoration(labelText: 'Email'),
+          ),
+          const SizedBox(
+              height: 20), // Adiciona um espaço entre os campos e o botão
           ElevatedButton(
-            onPressed: _addUser,
-            child: const Text('Add User'),
+            onPressed: () {},
+            child: const Text('Cadastrar'),
           ),
         ],
       ),
     );
   }
 
+  // ignore: unused_element
   void _addUser() {
     if (firstnameController.text.isNotEmpty &&
         lastnameController.text.isNotEmpty &&
         emailController.text.isNotEmpty) {
       userService
           .createUser(User(
-        id: '', // ID é gerado pela API, não precisa enviar
-        title: tituloController
-            .text, // Incluído, assumindo que você ainda quer enviar isso
+        id: '',
+        title: tituloController.text,
         firstName: firstnameController.text,
         lastName: lastnameController.text,
         email: emailController.text,
-        picture: pictureController.text, // Incluído, assumindo que é necessário
+        picture: '',
       ))
           .then((newUser) {
-        _showSnackbar('User added successfully!');
+        _showSnackbar('Usuário Cadastrado com Sucesso!');
         _refreshUserList();
       }).catchError((error) {
-        _showSnackbar('Failed to add user: $error');
+        _showSnackbar('Falha ao Adicionar o osuário: $error');
       });
     } else {
-      _showSnackbar('Please fill in all fields.');
+      _showSnackbar('Por favor, preencha todos os campos.');
     }
   }
 
@@ -241,5 +280,34 @@ class _UserListScreenState extends State<UserListScreen> {
   void _showSnackbar(String message) {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(message)));
+  }
+}
+
+class AddUserScreen extends StatelessWidget {
+  const AddUserScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: <Widget>[
+          TextFormField(
+            decoration: const InputDecoration(labelText: 'Primeiro Nome'),
+          ),
+          TextFormField(
+            decoration: const InputDecoration(labelText: 'Sobrenome'),
+          ),
+          TextFormField(
+            decoration: const InputDecoration(labelText: 'Email'),
+          ),
+          const SizedBox(height: 20), // Adiciona um espaço
+          ElevatedButton(
+            onPressed: () {},
+            child: const Text('Cadastrar'),
+          ),
+        ],
+      ),
+    );
   }
 }
