@@ -87,6 +87,7 @@ class UserService {
     if (response.statusCode == 200) {
       return User.fromJson(jsonDecode(response.body));
     } else {
+      // ignore: avoid_print
       print('Error ${response.statusCode}: ${response.body}');
       throw "Failed to update user with status code: ${response.statusCode}";
     }
