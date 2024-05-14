@@ -1,3 +1,4 @@
+import 'package:apiflutter/userForm.dart';
 import 'package:flutter/material.dart';
 import 'user.dart';
 import 'user_service.dart';
@@ -47,7 +48,7 @@ class TabBarDemo extends StatelessWidget {
         body: const TabBarView(
           children: [
             UserListScreen(),
-            AddUserScreen(),
+            UserForm(),
           ],
         ),
       ),
@@ -180,88 +181,6 @@ class _UserListScreenState extends State<UserListScreen> {
     setState(() {
       futureUsers = userService.getUsers();
     });
-  }
-}
-
-class AddUserScreen extends StatefulWidget {
-  const AddUserScreen({Key? key}) : super(key: key);
-
-  @override
-  // ignore: library_private_types_in_public_api
-  _AddUserScreenState createState() => _AddUserScreenState();
-}
-
-class _AddUserScreenState extends State<AddUserScreen> {
-  final TextEditingController tituloController = TextEditingController();
-  final TextEditingController firstnameController = TextEditingController();
-  final TextEditingController lastnameController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: <Widget>[
-          TextFormField(
-            controller: tituloController,
-            decoration: const InputDecoration(labelText: 'Primeiro Nome'),
-          ),
-          TextFormField(
-            controller: firstnameController,
-            decoration: const InputDecoration(labelText: 'Sobrenome'),
-          ),
-          TextFormField(
-            controller: lastnameController,
-            decoration: const InputDecoration(labelText: 'Email'),
-          ),
-          const SizedBox(height: 20), // Adiciona um espaço
-          ElevatedButton(
-            onPressed: () {
-              _addUser(
-                tituloController.text,
-                firstnameController.text,
-                lastnameController.text,
-              );
-            },
-            child: const Text('Cadastrar'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _addUser(
-    String titulo,
-    String firstName,
-    String lastName,
-  ) {
-    final UserService userService = UserService();
-
-    if (firstName.isNotEmpty && lastName.isNotEmpty) {
-      userService
-          .createUser(User(
-        id: '',
-        title: titulo,
-        firstName: firstName,
-        lastName: lastName,
-        email: '',
-        picture: '',
-      ))
-          .then((newUser) {
-        _showSnackbar('Usuário cadastrado com sucesso!');
-        Navigator.pop(
-            context); // Fecha a tela de cadastro após adicionar o usuário
-      }).catchError((error) {
-        _showSnackbar('Falha ao cadastrar o usuário: $error');
-      });
-    } else {
-      _showSnackbar('Por favor, preencha todos os campos.');
-    }
-  }
-
-  void _showSnackbar(String message) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
   }
 }
 
