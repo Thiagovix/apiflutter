@@ -26,7 +26,8 @@ class _UserFormState extends State<UserForm> {
       userService
           .createUser(User(
         id: '', // ID é gerado pela API, não precisa enviar
-        title: tituloController.text, // Incluído, assumindo que você ainda quer enviar isso
+        title: tituloController
+            .text, // Incluído, assumindo que você ainda quer enviar isso
         firstName: firstnameController.text,
         lastName: lastnameController.text,
         email: emailController.text,
@@ -77,49 +78,60 @@ class _UserFormState extends State<UserForm> {
                   children: [
                     TextFormField(
                       controller: firstnameController,
-                      style: const TextStyle(color: Colors.white), // Cor do texto
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 7, 7, 7)), // Cor do texto
                       decoration: const InputDecoration(
-                        labelText: 'Name',
-                        labelStyle: TextStyle(color: Colors.white),
+                        labelText: 'Nome',
+                        filled: true,
+                        // labelStyle: TextStyle(color: Colors.white),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(5)),
-                          borderSide: BorderSide(color: Colors.white), // Cor do contorno
+                          // borderSide: BorderSide(
+                          //     color: Colors.white), // Cor do contorno
                         ),
                       ),
                     ),
                     TextFormField(
                       controller: lastnameController,
-                      style: const TextStyle(color: Colors.white), // Cor do texto
+                      style:
+                          const TextStyle(color: Colors.white), // Cor do texto
                       decoration: const InputDecoration(
-                        labelText: 'First Name',
-                        labelStyle: TextStyle(color: Colors.white),
+                        filled: true,
+                        labelText: 'Sobrenome',
+                        // labelStyle: TextStyle(color: Colors.white),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(5)),
-                          borderSide: BorderSide(color: Colors.white), // Cor do contorno
+                          borderSide: BorderSide(
+                              color: Colors.white), // Cor do contorno
                         ),
                       ),
                     ),
                     TextFormField(
                       controller: emailController,
-                      style: const TextStyle(color: Colors.white), // Cor do texto
+                      style:
+                          const TextStyle(color: Colors.white), // Cor do texto
                       decoration: const InputDecoration(
+                        filled: true,
                         labelText: 'Email',
-                        labelStyle: TextStyle(color: Colors.white),
+                        // labelStyle: TextStyle(color: Colors.white),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(5)),
-                          borderSide: BorderSide(color: Colors.white), // Cor do contorno
+                          borderSide: BorderSide(
+                              color: Colors.white), // Cor do contorno
                         ),
                       ),
                     ),
                     TextButton.icon(
-                      label: const Text("Add User"),
+                      label: const Text("Cadastrar"),
                       icon: const Icon(Icons.add),
                       onPressed: _addUser, // Corrigido: removi os parênteses
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
-                              const Color.fromARGB(255, 78, 79, 78)),
-                          foregroundColor: MaterialStateProperty.all(Colors.white),
-                          fixedSize: MaterialStateProperty.all(const Size(150, 10))),
+                              Color.fromRGBO(24, 139, 253, 1)),
+                          foregroundColor:
+                              MaterialStateProperty.all(Colors.white),
+                          fixedSize:
+                              MaterialStateProperty.all(const Size(150, 10))),
                     ),
                   ],
                 ),
@@ -131,6 +143,7 @@ class _UserFormState extends State<UserForm> {
     );
   }
 }
+
 
 
 // import 'package:apiflutter/user.dart';

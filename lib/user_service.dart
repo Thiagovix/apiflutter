@@ -6,7 +6,10 @@ class UserService {
   final String apiUrl = "https://dummyapi.io/data/v1";
   final Map<String, String> headers = {
     'Content-Type': 'application/json',
-    'app-id': '66339f4c777d45485ff7532b',
+    'app-id': '6644e40549635183caf04611',
+
+    //seu id:6644e40549635183caf04611
+    //id professora: 66339f4c777d45485ff7532b
   };
 
   // Obter lista de usuários
@@ -87,6 +90,7 @@ class UserService {
     if (response.statusCode == 200) {
       return User.fromJson(jsonDecode(response.body));
     } else {
+      // ignore: avoid_print
       print('Error ${response.statusCode}: ${response.body}');
       throw "Failed to update user with status code: ${response.statusCode}";
     }

@@ -31,7 +31,8 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final List<Widget> _tabs = [
     const UserList(),
@@ -53,9 +54,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('CadPeople'),
-      ),
       body: Column(
         children: [
           Expanded(
@@ -72,10 +70,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               tabs: const <Tab>[
                 Tab(
                   icon: Icon(Icons.receipt_long_rounded, color: Colors.white),
-                  
                 ),
                 Tab(
-                  icon: Icon(Icons.add_reaction_outlined, color: Colors.white,),
+                  icon: Icon(
+                    Icons.add_reaction_outlined,
+                    color: Colors.white,
+                  ),
                 ),
               ],
             ),
