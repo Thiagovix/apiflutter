@@ -54,6 +54,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent, // Fundo do Scaffold transparente
       body: Column(
         children: [
           Expanded(
@@ -63,17 +64,26 @@ class _HomeScreenState extends State<HomeScreen>
             ),
           ),
           Container(
-            color: Colors.black87, // Cor de fundo da TabBarDemo
+            decoration: const BoxDecoration(
+              color: Colors.black87,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15.0),
+                topRight: Radius.circular(15.0),
+                bottomLeft: Radius.circular(15.0),
+                bottomRight: Radius.circular(15.0),
+              ),
+            ), // Cor de fundo da TabBarDemo
             child: TabBar(
               controller: _tabController,
               indicatorSize: TabBarIndicatorSize.label,
+              indicatorColor: Colors.deepOrange, // Cor do indicador
               tabs: const <Tab>[
                 Tab(
                   icon: Icon(Icons.receipt_long_rounded, color: Colors.white),
                 ),
                 Tab(
                   icon: Icon(
-                    Icons.add_reaction_outlined,
+                    Icons.add_circle_outline_outlined,
                     color: Colors.white,
                   ),
                 ),

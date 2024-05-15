@@ -60,7 +60,7 @@ class _UserFormState extends State<UserForm> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 118, 119, 120),
       appBar: AppBar(
-        title: const Text("Register"),
+        title: const Text("Register", style: TextStyle(color: Colors.black)),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 199, 199, 199),
       ),
@@ -94,7 +94,7 @@ class _UserFormState extends State<UserForm> {
                     TextFormField(
                       controller: lastnameController,
                       style:
-                          const TextStyle(color: Colors.white), // Cor do texto
+                          const TextStyle(color: Colors.black), // Cor do texto
                       decoration: const InputDecoration(
                         filled: true,
                         labelText: 'Sobrenome',
@@ -102,14 +102,14 @@ class _UserFormState extends State<UserForm> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(5)),
                           borderSide: BorderSide(
-                              color: Colors.white), // Cor do contorno
+                              color: Colors.black), // Cor do contorno
                         ),
                       ),
                     ),
                     TextFormField(
                       controller: emailController,
                       style:
-                          const TextStyle(color: Colors.white), // Cor do texto
+                          const TextStyle(color: Colors.black), // Cor do texto
                       decoration: const InputDecoration(
                         filled: true,
                         labelText: 'Email',
@@ -123,13 +123,13 @@ class _UserFormState extends State<UserForm> {
                     ),
                     TextButton.icon(
                       label: const Text("Cadastrar"),
-                      icon: const Icon(Icons.add),
-                      onPressed: _addUser, // Corrigido: removi os parênteses
+                      icon: const Icon(Icons.add_box),
+                      onPressed: _addUser,
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
-                              Color.fromRGBO(24, 139, 253, 1)),
+                              const Color.fromARGB(255, 199, 199, 199)),
                           foregroundColor:
-                              MaterialStateProperty.all(Colors.white),
+                              MaterialStateProperty.all(Colors.black),
                           fixedSize:
                               MaterialStateProperty.all(const Size(150, 10))),
                     ),

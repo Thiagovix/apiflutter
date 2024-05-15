@@ -33,7 +33,7 @@ class _UserListState extends State<UserList> {
         spacing: 50,
         children: <Widget>[
           TextButton.icon(
-            label: const Text("Edit"),
+            label: const Text("Editar"),
             icon: const Icon(Icons.edit),
             onPressed: () => {
               _showEditDialog(user),
@@ -42,19 +42,19 @@ class _UserListState extends State<UserList> {
                 backgroundColor: MaterialStateProperty.all(
                     const Color.fromARGB(255, 78, 79, 78)),
                 foregroundColor: MaterialStateProperty.all(Colors.white),
-                fixedSize: MaterialStateProperty.all(const Size(100, 10))),
+                fixedSize: MaterialStateProperty.all(const Size(110, 10))),
           ),
           TextButton.icon(
-            label: const Text("Delete"),
+            label: const Text("Deletar"),
             icon: const Icon(Icons.delete),
             onPressed: () => {
               _deleteUser(user.id!),
             },
             style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(const Color.fromARGB(255, 78, 79, 78)),
+                backgroundColor: MaterialStateProperty.all(
+                    const Color.fromARGB(255, 78, 79, 78)),
                 foregroundColor: MaterialStateProperty.all(Colors.white),
-                fixedSize: MaterialStateProperty.all(const Size(100, 10))),
+                fixedSize: MaterialStateProperty.all(const Size(110, 10))),
           ),
         ],
       ),
@@ -152,9 +152,10 @@ class _UserListState extends State<UserList> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 118, 119, 120),
       appBar: AppBar(
-        title: const Text("List of Users"),
+        title:
+            const Text("Lista Usuario", style: TextStyle(color: Colors.black)),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 122, 122, 123),
+        backgroundColor: const Color.fromARGB(255, 199, 199, 199),
       ),
       body: Column(
         children: [
